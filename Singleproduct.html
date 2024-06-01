@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <style>
+        #singlemain{
+            display: flex;
+        }
+        .singlecard{
+             /* border: 2px solid red;  */
+            margin-top: 20px;
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .singlecard>img{
+            width: 90%;
+            border: 2px solid black;
+            border-radius: 15px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            
+        }
+
+        .singlecard>img:hover{
+            filter:contrast(2);
+        }
+
+        .btnn{
+            padding: 15px;
+            margin-right: 70px;
+            border-radius: 10px;
+            border: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div><img src="https://tse2.mm.bing.net/th?id=OIP.cnrLFSg62df-g-S9GG_1IgHmCA&pid=Api&P=0&h=220" alt=""></div>
+        <div>HOME</div>
+        <div id="login">LOGIN/SINGUP</div>
+    </nav>
+    <main>
+        <div id="singlemain" >
+
+            </div>
+
+    </img>
+    </main>
+    
+</body>
+<script>
+    let main =document.getElementById("singlemain")
+
+    let data = JSON.parse(localStorage.getItem("singleproduct")) ||[]
+    console.log(data)
+    let imagediv = document.createElement("div")
+    imagediv.setAttribute("class","singlecard")
+    let islogin =JSON.parse(localStorage.getItem("islogin")) || null
+    let cartdata = JSON.parse(localStorage.getItem("cart"))|| []
+   
+
+    let arr =[data.image1,data.image2,data.image3,data.image4]
+    let i=0
+
+    let img1 =document.createElement("img")
+    img1.setAttribute("src",data.image1)
+        function updateImage() {
+        img1.setAttribute("src", arr[i]);
+        i = (i + 1) % arr.length; // Cycling through the array
+    }
+
+    // Set up the interval
+    img1.addEventListener("mouseover", () => {
+        console.log("Mouseover detected!");
+        intervalId = setInterval(updateImage, 1000); // Change image every 1000 milliseconds (1 second)
+    });
+
+    // Stop the interval when the mouse is out
+    img1.addEventListener("mouseout", () => {
+        console.log("Mouseout detected!");
+        clearInterval(intervalId);
+    });
+    
+
+    // let img2 =document.createElement("img")
+    // img2.setAttribute("src",data.image2)
+
+    // let img3 =document.createElement("img")
+    // img3.setAttribute("src",data.image3)
+
+    // let img4 =document.createElement("img")
+    // img4.setAttribute("src",data.image4)
+
+    let datadiv = document.createElement("div")
+    datadiv.setAttribute("class","datacard")
+
+    let title = document.createElement("h1")
+    title.innerText=data.name
+
+    let des = document.createElement("h4")
+    des.innerText=data.description
+
+    let color = document.createElement("h2")
+    color.innerText=data.color
+
+    let maincat= document.createElement("h2")
+    maincat.innerText=data.maincat
+
+    
+    let subcat= document.createElement("h2")
+    subcat.innerText=data.subcat
+
+    let price = document.createElement("h1")
+    price.innerText="RS "+data.price
+
+    let btn1 = document.createElement("button")
+    btn1.innerText = "shop now"
+    btn1.setAttribute ("class","btnn")
+
+    let btn2 = document.createElement("button")
+    btn2.innerText = "Add to Cart"
+    btn2.setAttribute ("class","btnn")
+
+
+    btn2.addEventListener("click",()=>{
+        console.log(islogin)
+        if(islogin == "true"){
+            if(cartdata.length==0){
+                alert("product added to card")
+                data.quantity =1
+                cartdata.push(data)
+                localStorage.setItem("cart",JSON.stringify(cartdata))
+                window.location.href ="./cart.html"
+            }else{
+
+                let isdata =false
+                cartdata.filter((ele,ind)=>{
+                    if(ele._id==data._id){
+                        isdata= true
+                        return
+                    }
+                    
+                })
+
+                if(isdata){
+                    alert("product already in cart")
+                    window.location.href ="./cart.html"
+                    // data.quantity = quantity+1
+                }else{
+                    alert("product added to cart")
+                    data.quantity = 1
+                    cartdata.push(data)
+                localStorage.setItem("cart",JSON.stringify(cartdata))
+                window.location.href ="./cart.html"
+                }
+               
+
+            }
+           
+        }else{
+            alert("not loged in")
+        }
+    })
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+    datadiv.append(title,des,color,maincat,subcat,price,btn1,btn2)
+    imagediv.append(img1)
+    main.append(imagediv,datadiv)
+    
+</script>
+</html>

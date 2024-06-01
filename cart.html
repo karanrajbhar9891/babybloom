@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+*{
+   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+nav{
+    padding: 0px;
+    margin: 0px;
+    background-color: blueviolet;   
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items:center;
+    font-size: 30px;
+    position: sticky;
+    top: 0px;
+    cursor: pointer;
+}
+nav>div{
+    margin: 10px;
+}
+
+
+nav>div>img{
+    width: 300px;
+    height: 55px;
+    border-radius: 10px;
+   
+}
+
+#cartdata{
+    margin: auto;
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+.card{
+    background-color: antiquewhite;
+    /* border: 2px solid red; */
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    border-radius: 15px;
+    text-align: center;
+
+}
+.card>img{
+    border-radius: 50%;
+    margin: auto;
+    width: 70%;
+
+}
+.quantdiv{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+
+}
+.quantdiv>button{
+    width: 100px;
+    border-radius: 15px;
+    border: none;
+    background-color: blue;
+    color: white;
+    font-size: xx-large;
+    font-weight: 800;
+}
+.sum{
+    height: 80px;
+    /* border: 2px solid red; */
+    box-shadow: rgb(38, 57, 77) 0px 10px 30px -10px;
+    margin: 20px;
+    display: flex;
+    justify-content:space-around ;
+    align-items: center;
+    background-color: antiquewhite;
+    border-radius: 20px;
+}
+#total{
+    font-size: x-large;
+    font-weight: 700;
+}
+#checkout{
+    background-color: blue;
+    font-size: x-large;
+    padding: 10px;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div><img src="https://tse2.mm.bing.net/th?id=OIP.cnrLFSg62df-g-S9GG_1IgHmCA&pid=Api&P=0&h=220" alt=""></div>
+        <div>HOME</div>
+        <div id="login">LOGIN/SINGUP</div>
+    </nav>
+    <div class="sum">
+        <div id="total"></div>
+        <div id="checkout">checkout</div>
+    </div>
+    <div id="cartdata">
+        <!-- code injected by javascript -->
+        
+    </div>
+</body>
+<script>
+
+    let cartdata = JSON.parse(localStorage.getItem("cart"))||[]
+    let maindiv = document.getElementById("cartdata")
+    let total = document.getElementById("total")
+    let checkout = document.getElementById("checkout")
+    display(cartdata)
+
+    function display(data){
+
+        console.log(data)
+        maindiv.innerText=""
+        data.forEach( (ele,ind)=>{
+            let card = document.createElement("div")
+            card.setAttribute("class","card")
+
+            let image =document.createElement("img")
+            image.setAttribute("src",ele.image1)
+
+            let name = document.createElement("h2")
+            name.innerText = ele.name
+
+            let price = document.createElement("h2")
+            price.innerText = ele.price
+
+            let quantdiv = document.createElement("div")
+            quantdiv.setAttribute("class","quantdiv")
+
+            let btn1 = document.createElement("button")
+            btn1.innerText = `+`
+            btn1.addEventListener("click",()=>{
+                // add(ele)
+                console.log("clicked")
+                ele.quantity=ele.quantity+1
+                
+                display(data)
+            })
+
+            let btn2 = document.createElement("button")
+            btn2.innerText = "-"
+            btn2.addEventListener("click",()=>{
+                if(ele.quantity>=1){
+                    ele.quantity=ele.quantity-1
+                    
+                display(data)
+                }
+                if(ele.quantity==0){
+                    let newdata = data.filter((element,ind)=>{
+                        if(element._id!=ele._id){
+                            return true
+                        }else{
+                            return false
+                        }
+                    })
+                    localStorage.setItem("cart",JSON.stringify(newdata))
+                    display(newdata)
+                }
+            })
+
+            let quantity = document.createElement("p")
+            quantity.innerText = ele.quantity
+
+
+
+
+
+            quantdiv.append(btn1,quantity,btn2)
+            card.append(image,name,price,quantdiv)
+            maindiv.append(card)
+        });
+        let sum =0
+    let totalsum = cartdata.map((ele,ind)=>{
+        let pri = ele.price*ele.quantity
+        sum+=pri
+
+    })
+    total.innerText="TOTAL = "+ sum
+    }
+    
+    
+    
+</script>
+</html>

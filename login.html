@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;   
+    }
+
+    .main{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 2px solid red; */
+        height: 100vh;
+        background:url(https://66.media.tumblr.com/731543a34d945beefab773f4ccd1e415/tumblr_mv1zosNgwH1sls9lmo1_500.gif);
+        background-size: cover;
+        
+        /* margin: 0px;
+        padding: 0%; */
+    }
+
+    .box{
+        width: 500px;
+        height: 400px;
+        border-radius: 20px;
+        /* border: 2px solid red; */
+        text-align: center;
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        backdrop-filter: blur(4px);
+    }
+    .box>h1{
+        color: aqua;
+        padding: 20px;
+
+    }
+    .box>div>input{
+        width: 350px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        background-color: aquamarine;
+
+        /* border: 2px solid red; */
+    }
+    .box>div>p{
+        margin: 7px;
+        padding: 7px;
+        color: white;
+    }
+    .box>div>button{
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        margin-top: 30px;
+        background-color: rgb(94, 94, 237);
+        color: white;
+        font-size: 20px;
+        border: none;
+        outline: none;
+    }
+    .box>div>button:hover{
+        background-color: blue;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+    <main class="main">
+        <div class="box">
+            <h1>login</h1>
+            <div >
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div>
+                <input type="password" id="password" placeholder="Enter the password">
+            </div>
+            <div>
+                <p>click here to <a href="">Signup</a></p>
+            </div>
+            <div>
+                <button id="tap">Login</button>
+            </div>
+
+        </div>
+    </main>
+</body>
+<script>
+    let email = document.getElementById("email")
+    let pass = document.getElementById("password")
+    let btn = document.getElementById("tap")
+    btn.addEventListener("click",()=>{
+        if(email.value=="karanrajbhar@gmail.com"){
+            if(pass.value=="1234567890"){
+                localStorage.setItem("islogin",JSON.stringify("true"))
+            alert("welcome")
+            window.location.href="./index.html"
+            } 
+            else{
+                alert("wrong password")
+            }   
+
+        }else{
+            alert("wrong email")
+        }
+    })
+</script>
+</html>
